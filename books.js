@@ -13,7 +13,9 @@ function renderBooks(filter) {
   }
 
     const booksHtml = books.map((book) => {
-          `<img class="book__img" src="${book.url}" alt="">
+         return `<div class="book">
+        <figure class="book__img--wrapper>
+          <img class="book__img" src="${book.url}" alt="">
         </figure>
         <div class="book__title">
           ${book.title}
@@ -25,18 +27,16 @@ function renderBooks(filter) {
           <span class="book__price--normal">$${book.originalPrice.toFixed(
             2
           )}</span>
-        </div>`;
-    })
+     </div>`;
+      })
     
-     .join("");
+      .join("");
  
-       console.log(booksHtml)
-       booksWrapper.innerHTML = booksHtml;
+       
+    booksWrapper.innerHTML = booksHtml;
  
  }
-  setTimeout(() => {
-  renderBooks();
-},0);
+  
 
 
 function ratingsHTML(rating) {
@@ -53,7 +53,9 @@ function ratingsHTML(rating) {
 function filterBooks(event) {
   renderBooks(event.target.value);
 }
-
+setTimeout(() => {
+  renderBooks();
+},0);
 
 // FAKE DATA
 function getBooks() {

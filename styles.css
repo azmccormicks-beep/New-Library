@@ -365,6 +365,10 @@ FEATURES
   padding-right: 6px;
   color: #bfbfbf;
 }
+.book__price--sale{
+  color: #333;
+  font-weight: 700;
+}
 
 /* 
 

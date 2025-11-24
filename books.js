@@ -1,12 +1,12 @@
-  function renderBooks(filter) {
+    function renderBooks(filter) {
       const booksWrapper = document.querySelector(".books");
 
       const books = getBooks();
 
       if (filter === "LOW_TO_HIGH") {
-        books.sort((a, b) => a.originalPrice - b.originalPrice);
+        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice ||b.originalPrice));
       } else if (filter === "HIGH_TO_LOW") {
-        books.sort((a, b) => b.originalPrice - a.originalPrice);
+        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice ||b.originalPrice));
       } else if (filter === "RATING") {
         books.sort((a, b) => b.rating - a.rating);
       }
@@ -14,25 +14,36 @@
         const booksHtml = books.map((book) => {
         
         const priceHtml = book.salePrice
+
+        
           ?`<span class="book__price--normal">$${book.originalPrice.toFixed(2)}</span>
             <span class="book__price--sale">$${book.salePrice.toFixed(2)}</span>`
           :`$${book.originalPrice.toFixed(2)}`
-
-        return  `<div class="book"
+           
+            return` <div class="book"
             <figure class="book__img--wrapper>
-                <img class="book__img" src="${book.url}" alt="">
+                img loading="lazy"
+                <img class="book__img" ${book.url}" alt="${book.title}">
             </figure>
-            <div class="book__title">${book.title}
-            <div class="book__ratings">${ratingsHTML(book.rating)}
-            <div class="book__price ${priceHtml}
-        </div>;`
-      
+              <div class="book__title">${book.title}
+            </div>
+              <div class="book__ratings">${ratingsHTML(book.rating)}
+            </div>
+              <div class="book__price $${priceHtml(book.originalPrice, book.salePrice)}
+            </div>
+        </div> `;
+       
       })
       
-   
     .join("");
 
   booksWrapper.innerHTML = booksHtml;
+}
+
+function priceHtml(originalPrice, salePrice){
+  if (!salePrice)
+    return`$${originalPrice.toFIxed(2)}`
+  return `<span class="book__price--normal">$${originalPrice.toFixed(2)}</span>$${salePrice.foFixed(2)}`
 }
 
 function ratingsHTML(rating) {
@@ -49,9 +60,10 @@ function ratingsHTML(rating) {
 function filterBooks(event) {
   renderBooks(event.target.value);
 }
+
 setTimeout(() => {
   renderBooks();
-}, 0);
+});
 
 // FAKE DATA
 function getBooks() {
@@ -59,7 +71,7 @@ function getBooks() {
     {
       id: 1,
       title: "Crack the Coding Interview",
-      url: "assets/crack the coding interview.png",
+      url: "assets/crack-the-coding-interview.png",
       originalPrice: 49.95,
       salePrice: 14.95,
       rating: 4.5,

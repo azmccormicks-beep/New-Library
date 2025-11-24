@@ -4,32 +4,24 @@
       const books = getBooks();
 
       if (filter === "LOW_TO_HIGH") {
-        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice ||b.originalPrice));
+        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice || b.originalPrice));
       } else if (filter === "HIGH_TO_LOW") {
-        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice ||b.originalPrice));
+        books.sort((a, b) => ( a.salePrice || a.originalPrice) - (b.salePrice || b.originalPrice));
       } else if (filter === "RATING") {
         books.sort((a, b) => b.rating - a.rating);
       }
 
-        const booksHtml = books.map((book) => {
-        
-        const priceHtml = book.salePrice
-
-        
-          ?`<span class="book__price--normal">$${book.originalPrice.toFixed(2)}</span>
-            <span class="book__price--sale">$${book.salePrice.toFixed(2)}</span>`
-          :`$${book.originalPrice.toFixed(2)}`
-           
-            return` <div class="book"
+        const booksHtml = books
+        .map((book) => {
+            return ` <div class="book"
             <figure class="book__img--wrapper>
-                img loading="lazy"
-                <img class="book__img" ${book.url}" alt="${book.title}">
+                <img class="book__img" src="${book.url}" alt="">
             </figure>
               <div class="book__title">${book.title}
             </div>
               <div class="book__ratings">${ratingsHTML(book.rating)}
             </div>
-              <div class="book__price $${priceHtml(book.originalPrice, book.salePrice)}
+              <div class="book__price $${priceHTML(book.originalPrice, book.salePrice)}
             </div>
         </div> `;
        
@@ -40,11 +32,12 @@
   booksWrapper.innerHTML = booksHtml;
 }
 
-function priceHtml(originalPrice, salePrice){
+function priceHTML(originalPrice, salePrice){
   if (!salePrice)
     return`$${originalPrice.toFIxed(2)}`
   return `<span class="book__price--normal">$${originalPrice.toFixed(2)}</span>$${salePrice.foFixed(2)}`
 }
+//console.log priceHtml(originalPrice, salePrice)
 
 function ratingsHTML(rating) {
   let ratingHTML = "";
